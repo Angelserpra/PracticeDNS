@@ -1,0 +1,31 @@
+; 
+; zone: sistema.sol
+; 
+
+$TTL	86400
+@	IN	SOA	tierra.sistema.sol. admin.sistema.sol. (
+			      1		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			  7200 )	; Negative Cache TTL
+;
+
+; RESOLVE RECORDS (RR)
+; name servers (NS)
+@			IN	NS	tierra.sistema.sol.
+@			IN	NS	venus.sistema.sol.
+
+; host addresses (A)
+tierra.sistema.sol.	IN	A	192.168.57.103
+mercurio.sistema.sol.	IN	A	192.168.57.101
+venus.sistema.sol.	IN	A	192.168.57.102
+marte.sistema.sol.	IN	A	192.168.57.104
+
+; mail servers (MX)
+sistema.sol.		IN	MX 10	marte.sistema.sol.
+
+; aliases
+ns1.sistema.sol.	IN	CNAME	tierra.sistema.sol.
+ns2.sistema.sol.	IN	CNAME	venus.sistema.sol.
+mail.sistema.sol.	IN	CNAME	marte.sistema.sol.

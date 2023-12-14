@@ -1,0 +1,9 @@
+zone "sistema.sol" {
+	type master;
+	file "/var/lib/bind/sistema.sol.dns";
+};
+
+zone "57.168.192.in-addr.arpa" {
+	type master;
+	file "/var/lib/bind/sistema.sol.rev";
+};
