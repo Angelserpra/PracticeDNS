@@ -1,0 +1,43 @@
+# coding: utf-8
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/bullseye64"
+  
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "256"
+    vb.linked_clone = true
+  end
+
+  config.vm.define "bad" do |bad|
+    bad.vm.hostname = "bad.example.com"
+    bad.vm.network :private_network, ip: "192.168.57.2"
+    
+    bad.vm.provision "bootstrap", type:"shell", inline: <<-SHELL
+        apt-get update -y
+        apt-get install -y bind9 bind9-utils bind9-doc
+        
+
+    SHELL
+
+    bad.vm.provision "bad", type:"shell", inline: <<-SHELL
+
+    DEBIAN_FRONTEND=noninteractive
+
+    apt update -y
+
+
+    cp /vagrant/dns/bad/resolv.conf /etc/resolv.conf
+    cp /vagrant/dns/bad/named /etc/default/named
+
+    cp /vagrant/dns/bad/named.conf.local /etc/bind/named.conf.local
+    cp /vagrant/dns/bad/named.conf.options /etc/bind/named.conf.options
+    cp /vagrant/dns/bad/example.com.dns /var/lib/bind
+    cp /vagrant/dns/bad/example.com.rev /var/lib/bind
+      systemctl restart bind9
+      
+    SHELL
+  end 
+
+end # Configure
